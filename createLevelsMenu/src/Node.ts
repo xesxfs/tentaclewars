@@ -1,8 +1,15 @@
+/*
+ * @Author: chenwei
+ * @Date: 2018-09-28 12:18:32
+ * @LastEditors: chenwei
+ * @LastEditTime: 2018-09-28 12:19:23
+ * @Description: 
+ * @Email: chenweicon@gmail.com
+ */
+
 module Game {
 
-
 	export class Node extends egret.Sprite {
-
 
 		protected angle: number = 0;
 
@@ -11,7 +18,6 @@ module Game {
 		protected children: Array<NodeChild> = null;
 
 		protected mouseEnabled: boolean = true;
-
 
 		public constructor(baseRadius: number, baseAngle: number) {
 			super();

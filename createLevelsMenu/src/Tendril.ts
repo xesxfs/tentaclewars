@@ -1,3 +1,12 @@
+/*
+ * @Author: chenwei
+ * @Date: 2018-09-28 12:19:50
+ * @LastEditors: chenwei
+ * @LastEditTime: 2018-09-28 12:19:50
+ * @Description: 
+ * @Email: chenweicon@gmail.com
+ */
+
 module Game {
 
 	export class Tendril extends Game.Node {

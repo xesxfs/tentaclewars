@@ -1,3 +1,12 @@
+/*
+ * @Author: chenwei
+ * @Date: 2018-09-28 12:18:06
+ * @LastEditors: chenwei
+ * @LastEditTime: 2018-09-28 12:18:06
+ * @Description: 
+ * @Email: chenweicon@gmail.com
+ */
+
 class Rendril2 extends egret.Sprite {
 	public constructor() {
 		super();

@@ -1,3 +1,12 @@
+/*
+ * @Author: chenwei
+ * @Date: 2018-09-28 12:18:18
+ * @LastEditors: chenwei
+ * @LastEditTime: 2018-09-28 12:18:18
+ * @Description: 
+ * @Email: chenweicon@gmail.com
+ */
+
 module Game {
 	export class Sync {
 		private _phase: number = 0;

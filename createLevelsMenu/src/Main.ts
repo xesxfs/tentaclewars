@@ -217,13 +217,11 @@ class Main extends eui.UILayer {
             dialog.addChild(but);
             this.addChild(dialog);
             i++;
-
         }
-
     }
 
-    public createTextSpite() {
-
+    public createTextSpite():eui.Image|eui.Label|eui.Group {
+        return
     }
 
     // public createText(str: String, size: int, color: uint, alpha: Number = 1, outline: Boolean = false, outlineColor: uint = 16777215, fontName: String = "default", isCentered: Boolean = true): TextSprite {
