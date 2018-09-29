@@ -31,17 +31,17 @@ package
       
       private var var_217:uint = 0;
       
-      private var var_325:Boolean = false;
+      private var isPause:Boolean = false;
       
       private var var_100:int = 0;
       
-      private var var_78:int = 0;
+      private var _maxPower:int = 0;
       
       private var var_236:Array = null;
       
       private var var_158:Sprite = null;
       
-      private var var_55:Array = null;
+      private var originLinkList:Array = null;
       
       private var var_170:Number = 0;
       
@@ -51,11 +51,11 @@ package
       
       private var var_73:Pulsar = null;
       
-      private var var_157:Sfx = null;
+      private var sfx:Sfx = null;
       
       private var var_167:Number = 0;
       
-      private var var_82:Array = null;
+      private var evoInfoList:Array = null;
       
       private var var_23:int = 0;
       
@@ -67,11 +67,11 @@ package
       
       private var var_304:uint = 20;
       
-      private var var_70:int = 0;
+      private var colorType:int = 0;
       
       private var var_137:Sprite = null;
       
-      private var var_160:Array = null;
+      private var cellNodeList:Array = null;
       
       private var var_390:uint = 2;
       
@@ -87,20 +87,20 @@ package
       {
          super();
          this.m_game = game;
-         this.var_70 = type;
+         this.colorType = type;
          this.var_23 = initPower;
-         this.var_160 = new Array();
-         this.var_82 = new Array();
-         this.var_157 = new Sfx();
+         this.cellNodeList = new Array();
+         this.evoInfoList = new Array();
+         this.sfx = new Sfx();
          this.var_137 = new Sprite();
          CellNode.TYPE2[] = new 80.EvoInfo(CellNode.TYPE3,30,CellNode.TYPE1,50,15,GamezheroDictionary.getTranslationByName("pulsar").toLocaleUpperCase() + "-A",true,2);
          CellNode.TYPE3[] = new 120.EvoInfo(CellNode.TYPE4,true,60,CellNode.TYPE2,60,10,GamezheroDictionary.getTranslationByName("pulsar").toLocaleUpperCase() + "-B",2);
          true[CellNode.TYPE5] = new EvoInfo(210,CellNode.TYPE5,140,CellNode.TYPE4,100,2,GamezheroDictionary.getTranslationByName("predator").toLocaleUpperCase(),3);
          §§push(true);
          §§push(true);
-         §§push(this.var_82);
-         §§push(this.var_82);
-         §§push(this.var_82);
+         §§push(this.evoInfoList);
+         §§push(this.evoInfoList);
+         §§push(this.evoInfoList);
          if(!this.method_64())
          {
             this.method_57();
@@ -114,16 +114,16 @@ package
       
       public function get maxPower() : int
       {
-         return this.var_78;
+         return this._maxPower;
       }
       
       public function set maxPower(value:int) : void
       {
-         this.var_78 = value;
+         this._maxPower = value;
          §§push(true);
-         if(this.var_23 > this.var_78)
+         if(this.var_23 > this._maxPower)
          {
-            this.var_23 = this.var_78;
+            this.var_23 = this._maxPower;
             while(this.method_64())
             {
             }
@@ -133,7 +133,7 @@ package
       
       public function get maxOrigLinks() : int
       {
-         var info:EvoInfo = this.var_82[this.var_64];
+         var info:EvoInfo = this.evoInfoList[this.var_64];
          return info.maxLinks;
       }
       
@@ -166,7 +166,7 @@ package
       
       public function set power(value:int) : void
       {
-         if(value > this.var_78)
+         if(value > this._maxPower)
          {
             §§push(true);
          }
@@ -213,7 +213,7 @@ package
             this.var_158 = null;
          }
          var i:int = 0;
-         if(this.var_70 != TYPE_GREY)
+         if(this.colorType != TYPE_GREY)
          {
             begin = true;
             g.lineStyle(1,color);
@@ -234,9 +234,9 @@ package
                §§push(true);
             }
             addr323:
-            for(; i < this.var_160.length; i++)
+            for(; i < this.cellNodeList.length; i++)
             {
-               node = this.var_160[i];
+               node = this.cellNodeList[i];
                node.setRadius(this.radius());
             }
             return;
@@ -253,9 +253,9 @@ package
          {
             removeEventListener(Event.ENTER_FRAME,this.onEnterFrame);
          }
-         while(this.var_55.length > 0)
+         while(this.originLinkList.length > 0)
          {
-            link = this.var_55.pop();
+            link = this.originLinkList.pop();
             link.destruct();
          }
          this.method_137();
@@ -271,9 +271,9 @@ package
       {
          var giveUpPower:int = 0;
          var captured:Boolean = false;
-         if(type != this.var_70)
+         if(type != this.colorType)
          {
-            §§push(this.var_70);
+            §§push(this.colorType);
             if(TYPE_GREY < true)
             {
                this.var_357 = type;
@@ -313,13 +313,13 @@ package
          }
          if(captured)
          {
-            this.var_70 = type;
+            this.colorType = type;
             this.var_64 = 0;
             while(this.method_64())
             {
             }
             this.method_269();
-            this.var_157.startWave(this.radius());
+            this.sfx.startWave(this.radius());
             SoundMgr.playSfx(SoundMgr.CELL_OCCUPIED);
          }
          this.method_57();
@@ -329,9 +329,9 @@ package
       {
          var tmp:Array = new Array();
          var link:Link = null;
-         for(var i:int = 0; i < this.var_55.length; i++)
+         for(var i:int = 0; i < this.originLinkList.length; i++)
          {
-            link = this.var_55[i];
+            link = this.originLinkList[i];
             tmp.push(link);
          }
          while(tmp.length > 0)
@@ -343,12 +343,12 @@ package
       
       public function get numOrigLinks() : int
       {
-         return this.var_55.length;
+         return this.originLinkList.length;
       }
       
       public function getGiveUpPower() : int
       {
-         return this.var_70 == TYPE_GREY?int(this.var_23 / GREY_GIVE_UP_DIV - this.var_101):int(this.var_23);
+         return this.colorType == TYPE_GREY?int(this.var_23 / GREY_GIVE_UP_DIV - this.var_101):int(this.var_23);
       }
       
       public function radius() : Number
@@ -359,10 +359,10 @@ package
       
       public function delOriginLink(link:Link) : void
       {
-         var i:int = this.var_55.indexOf(link);
+         var i:int = this.originLinkList.indexOf(link);
          if(i >= 0)
          {
-            this.var_55.splice(i,1);
+            this.originLinkList.splice(i,1);
          }
          this.method_57();
       }
@@ -370,8 +370,8 @@ package
       public function getName() : String
       {
          var color:String = null;
-         var info:EvoInfo = this.var_82[this.var_64];
-         switch(this.var_70)
+         var info:EvoInfo = this.evoInfoList[this.var_64];
+         switch(this.colorType)
          {
             case TYPE_GREY:
                color = "";
@@ -395,7 +395,7 @@ package
       {
          var i:int = 0;
          var node:CellNode = null;
-         var info:EvoInfo = this.var_82[this.var_64];
+         var info:EvoInfo = this.evoInfoList[this.var_64];
          var power:int = this.var_23;
          §§push(this.var_64);
          §§push(power);
@@ -403,18 +403,18 @@ package
          {
             this.var_64 = info.downgradeType;
          }
-         info = this.var_82[this.var_64];
+         info = this.evoInfoList[this.var_64];
          this.var_304 = info.growPeriod;
          for(i = 0; i < 360; i = i + 45)
          {
             node = new CellNode(this.var_64,this.radius(),i,this.baseColor());
-            this.var_160.push(node);
+            this.cellNodeList.push(node);
             addChild(node);
          }
-         this.var_157.startWave(this.radius());
+         this.sfx.startWave(this.radius());
          §§push(true);
          §§push(true);
-         if(this.var_70 == this.m_game.getUserCellType() && this.var_64 == CellNode.TYPE5)
+         if(this.colorType == this.m_game.getUserCellType() && this.var_64 == CellNode.TYPE5)
          {
             this.m_game.newAchievement(Achievements.ID_TOP_LIFE_FORM);
          }
@@ -454,9 +454,9 @@ package
       private function method_139(amount:uint = 1) : void
       {
          §§push(this.var_100);
-         if(true > this.var_78)
+         if(true > this._maxPower)
          {
-            this.var_23 = this.var_78;
+            this.var_23 = this._maxPower;
          }
          this.method_57();
       }
@@ -464,11 +464,11 @@ package
       private function onEnterFrame(event:Event) : void
       {
          this.method_243();
-         if(this.var_325)
+         if(this.isPause)
          {
             return;
          }
-         if(this.var_70 != TYPE_GREY)
+         if(this.colorType != TYPE_GREY)
          {
             this.var_233++;
          }
@@ -493,29 +493,29 @@ package
       
       public function addOriginLink(link:Link) : void
       {
-         this.var_55.push(link);
-         this.var_157.startWave(this.radius());
+         this.originLinkList.push(link);
+         this.sfx.startWave(this.radius());
          this.method_57();
       }
       
       public function suspend() : void
       {
          var link:Link = null;
-         if(this.var_325)
+         if(this.isPause)
          {
             return;
          }
-         this.var_325 = true;
-         for(; 0 < this.var_55.length; §§push(true))
+         this.isPause = true;
+         for(; 0 < this.originLinkList.length; §§push(true))
          {
-            link = this.var_55[0];
+            link = this.originLinkList[0];
             link.cutAt(1);
          }
       }
       
       public function get type() : int
       {
-         return this.var_70;
+         return this.colorType;
       }
       
       public function addMoveDelta(dir:Number, value:Number = 1) : void
@@ -547,9 +547,9 @@ package
       
       private function method_137() : void
       {
-         for(var node:CellNode = null; this.var_160.length > 0; )
+         for(var node:CellNode = null; this.cellNodeList.length > 0; )
          {
-            node = this.var_160.pop();
+            node = this.cellNodeList.pop();
             node = null;
             §§push(true);
             §§push(true);
@@ -560,9 +560,9 @@ package
       {
          var link:Link = null;
          var attacksNum:int = 0;
-         for(var i:int = 0; i < this.var_55.length; )
+         for(var i:int = 0; i < this.originLinkList.length; )
          {
-            link = this.var_55[i];
+            link = this.originLinkList[i];
             if(this.var_23 < MIN_ATTACK_POWER)
             {
                break;
@@ -597,7 +597,7 @@ package
          {
          }
          this.var_23 = false;
-         this.var_70 = value;
+         this.colorType = value;
          while(this.method_64())
          {
          }
@@ -608,9 +608,9 @@ package
       {
          var link:Link = null;
          var isUpdateView:Boolean = false;
-         for(var i:int = 0; i < this.var_55.length; )
+         for(var i:int = 0; i < this.originLinkList.length; )
          {
-            link = this.var_55[i];
+            link = this.originLinkList[i];
             if(!link.isBusy())
             {
                if(link.addSeg())
@@ -627,7 +627,7 @@ package
                      continue;
                   }
                }
-               this.var_157.startWave(this.radius());
+               this.sfx.startWave(this.radius());
                §§push(link.isAttached());
                §§push(true);
             }

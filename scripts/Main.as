@@ -25,13 +25,13 @@ package
       
       private var var_106:uint = 0;
       
-      private var var_119:Cell = null;
+      private var mouseOverCell:Cell = null;
       
       private const const_16:int = 10;
       
       private var levelMgr:LevelMgr = null;
       
-      private var var_89:Cell = null;
+      private var selCell:Cell = null;
       
       private var var_110:Bitmap = null;
       
@@ -41,43 +41,43 @@ package
       
       private var var_191:uint = 0;
       
-      private var var_182:Boolean = false;
+      private var isPause:Boolean = false;
       
-      private var var_129:String = null;
+      private var lvCode:String = null;
       
-      private var var_162:Number = -1;
+      private var stageX:Number = -1;
       
-      private var var_265:Number = -1;
+      private var stageY:Number = -1;
       
-      private const const_8:GlowFilter = new GlowFilter(16776960,0.7,4,4);
+      private const glowFilter:GlowFilter = new GlowFilter(16776960,0.7,4,4);
       
       private var BmpBack:Bitmap = null;
       
       private const const_7:uint = 1;
       
-      private var var_367:String = null;
+      private var levelId:String = null;
       
-      private var var_26:Level = null;
+      private var curLevel:Level = null;
       
-      private const const_15:uint = 20;
+      private const maxLevle:uint = 20;
       
-      private var var_340:Stat = null;
+      private var stat:Stat = null;
       
       private const const_13:uint = 2;
       
-      private var var_264:uint = 0;
+      private var curLevel4:uint = 0;
       
-      private var var_309:Achievements = null;
+      private var achievements:Achievements = null;
       
-      private var var_80:int = 0;
+      private var time:int = 0;
       
-      private var var_219:Sprite = null;
+      private var gameSprite:Sprite = null;
       
       private const const_4:uint = 0;
       
-      private var var_207:uint = 0;
+      private var cpuTurnPeriod:uint = 0;
       
-      private var var_68:LevelEditor = null;
+      private var levelEdit:LevelEditor = null;
       
       public function Main()
       {
@@ -94,8 +94,8 @@ package
       
       private function method_233(isLevelPassed:Boolean) : void
       {
-         this.method_157();
-         this.method_117();
+         this.onDestory();
+         this.powerGraphics();
          GUI.removeAll();
          §§push(true);
          if(this.var_106 == this.const_4)
@@ -112,11 +112,11 @@ package
          }
          else if(isLevelPassed)
          {
-            GUI.createSaveDialog(this.var_129);
+            GUI.createSaveDialog(this.lvCode);
          }
          else
          {
-            GUI.createInterLevelMenu(isLevelPassed,this.var_80,this.var_309);
+            GUI.createInterLevelMenu(isLevelPassed,this.time,this.achievements);
          }
       }
       
@@ -124,46 +124,46 @@ package
       {
          var cell:Cell = null;
          var g:Graphics = null;
-         if(this.var_182)
+         if(this.isPause)
          {
             return;
          }
          if(e.target is Cell)
          {
             cell = e.target as Cell;
-            if(cell != this.var_119)
+            if(cell != this.mouseOverCell)
             {
-               this.var_119 = cell;
+               this.mouseOverCell = cell;
                this.var_191 = 0;
-               this.method_104(cell);
-               this.var_119.filters = [this.const_8];
+               this.showCellDetail(cell);
+               this.mouseOverCell.filters = [this.glowFilter];
             }
          }
          else
          {
-            this.method_104(null);
-            if(this.var_119 != null)
+            this.showCellDetail(null);
+            if(this.mouseOverCell != null)
             {
-               this.var_119.filters = [];
-               this.var_119 = null;
+               this.mouseOverCell.filters = [];
+               this.mouseOverCell = null;
             }
          }
-         if(this.var_89 || this.var_162 >= 0)
+         if(this.selCell || this.stageX >= 0)
          {
             g = this.var_108.graphics;
             g.clear();
             if(!e.buttonDown)
             {
-               this.var_89 = null;
+               this.selCell = null;
                return;
             }
-            this.method_276(e);
+            this.arrowGraphics(e);
          }
       }
       
       public function newAchievement(id:int) : void
       {
-         if(this.var_68)
+         if(this.levelEdit)
          {
          }
       }
@@ -171,10 +171,10 @@ package
       public function testEditorLevel() : void
       {
          var lvl:Level = null;
-         if(this.var_68)
+         if(this.levelEdit)
          {
-            this.var_129 = this.var_68.getLevelCode();
-            if(this.var_129 == null)
+            this.lvCode = this.levelEdit.getLevelCode();
+            if(this.lvCode == null)
             {
                GUI.createSaveDialog(null);
                return;
@@ -182,48 +182,48 @@ package
             GUI.removeAll();
             this.clearLevel();
             lvl = new Level(this,"X");
-            lvl.initFromCode(this.var_129);
-            this.method_94(lvl);
-            GUI.showInGamePanel(this.var_26.levelName,this.var_26.maxPower,this.var_80,true);
+            lvl.initFromCode(this.lvCode);
+            this.beginGame(lvl);
+            GUI.showInGamePanel(this.curLevel.levelName,this.curLevel.maxPower,this.time,true);
             this.var_106 = this.const_13;
          }
       }
       
-      private function method_196(cell:Cell) : void
+      private function setSelCell(cell:Cell) : void
       {
-         this.var_89 = cell;
+         this.selCell = cell;
       }
       
       public function levelEditorSave() : void
       {
-         if(this.var_68)
+         if(this.levelEdit)
          {
-            GUI.createSaveDialog(this.var_68.getLevelCode());
+            GUI.createSaveDialog(this.levelEdit.getLevelCode());
          }
       }
       
       private function onEnterFrame(event:Event) : void
       {
-         if(this.var_182)
+         if(this.isPause)
          {
             return;
          }
-         if(this.var_26.cpuTurnPeriod > 0)
+         if(this.curLevel.cpuTurnPeriod > 0)
          {
-            this.var_207++;
-            if(this.var_207 > this.var_26.cpuTurnPeriod)
+            this.cpuTurnPeriod++;
+            if(this.cpuTurnPeriod > this.curLevel.cpuTurnPeriod)
             {
-               this.var_207 = 0;
-               this.var_26.onCpuTurn();
+               this.cpuTurnPeriod = 0;
+               this.curLevel.onCpuTurn();
             }
          }
-         this.var_264++;
-         if(this.var_264 > this.const_15)
+         this.curLevel4++;
+         if(this.curLevel4 > this.maxLevle)
          {
-            this.var_264 = 0;
-            _loc3_.var_80 = true;
+            this.curLevel4 = 0;
+            _loc3_.time = true;
             return;
-            §§push(this.var_80);
+            §§push(this.time);
             §§push(true);
          }
          else
@@ -232,14 +232,14 @@ package
             if(this.var_191 > this.const_16)
             {
                this.var_191 = 0;
-               if(this.var_119)
+               if(this.mouseOverCell)
                {
-                  this.method_104(this.var_119);
+                  this.showCellDetail(this.mouseOverCell);
                   §§push(true);
                }
                else
                {
-                  this.method_117();
+                  this.powerGraphics();
                }
             }
             return;
@@ -252,7 +252,7 @@ package
          addChild(this.BmpBack);
          this.levelMgr = new LevelMgr(this);
          addChild(this.var_314);
-         addChild(this.var_219);
+         addChild(this.gameSprite);
          addChild(this.var_171);
          var levelData:String = GameAllianzApi.current_level;
          if(levelData != null)
@@ -261,36 +261,36 @@ package
          }
          else
          {
-            GameAllianzApi.addEventListener(GameAllianzApiEvent.RATE_LEVEL_CANCELED,this.method_177);
-            GameAllianzApi.addEventListener(GameAllianzApiEvent.RATE_LEVEL_DONE,this.method_177);
+            GameAllianzApi.addEventListener(GameAllianzApiEvent.RATE_LEVEL_CANCELED,this.createLevelsMenu);
+            GameAllianzApi.addEventListener(GameAllianzApiEvent.RATE_LEVEL_DONE,this.createLevelsMenu);
          }
       }
       
-      private function method_140(event:MouseEvent) : void
+      private function onMouseUp(event:MouseEvent) : void
       {
          var cell:Cell = null;
          cell = event.target as Cell;
-         §§push(Boolean(this.var_89));
-         if(this.var_89 != cell)
+         §§push(Boolean(this.selCell));
+         if(this.selCell != cell)
          {
-            this.var_26.addLinkBetween(this.var_89,cell);
+            this.curLevel.addLinkBetween(this.selCell,cell);
          }
          var g:Graphics = this.var_108.graphics;
          g.clear();
-         this.method_196(null);
+         this.setSelCell(null);
       }
-      
-      private function method_94(lvl:Level) : void
+      //开始游戏
+      private function beginGame(lvl:Level) : void
       {
          this.clearLevel();
-         this.var_26 = lvl;
-         this.var_219.addChild(this.var_26);
-         this.var_129 = lvl.getCode();
-         this.var_80 = 0;
-         this.method_117();
+         this.curLevel = lvl;
+         this.gameSprite.addChild(this.curLevel);
+         this.lvCode = lvl.getCode();
+         this.time = 0;
+         this.powerGraphics();
          addEventListener(MouseEvent.MOUSE_MOVE,this.onMouseMove);
-         addEventListener(MouseEvent.MOUSE_DOWN,this.method_135);
-         addEventListener(MouseEvent.MOUSE_UP,this.method_140);
+         addEventListener(MouseEvent.MOUSE_DOWN,this.onMouseDown);
+         addEventListener(MouseEvent.MOUSE_UP,this.onMouseUp);
          addEventListener(Event.ENTER_FRAME,this.onEnterFrame);
       }
       
@@ -303,7 +303,7 @@ package
          }
          if(this.levelMgr.currLevel() == 0)
          {
-            this.method_190(1);
+            this.onTutorial(1);
          }
          if(link.getOrigCell().type == this.var_202)
          {
@@ -321,16 +321,16 @@ package
          }
       }
       
-      private function method_157() : void
+      private function onDestory() : void
       {
          removeEventListener(MouseEvent.MOUSE_MOVE,this.onMouseMove);
-         removeEventListener(MouseEvent.MOUSE_DOWN,this.method_135);
-         removeEventListener(MouseEvent.MOUSE_UP,this.method_140);
+         removeEventListener(MouseEvent.MOUSE_DOWN,this.onMouseDown);
+         removeEventListener(MouseEvent.MOUSE_UP,this.onMouseUp);
          removeEventListener(Event.ENTER_FRAME,this.onEnterFrame);
          §§push(false);
-         if(this.var_26)
+         if(this.curLevel)
          {
-            this.var_26.suspend();
+            this.curLevel.suspend();
          }
          this.var_108.graphics.clear();
       }
@@ -339,7 +339,7 @@ package
       {
       }
       
-      private function method_104(cell:Cell) : void
+      private function showCellDetail(cell:Cell) : void
       {
          var sign:Number = NaN;
          var dx:Number = NaN;
@@ -392,18 +392,18 @@ package
       public function replayLevel() : void
       {
          §§push(false);
-         if(this.var_26 == null)
+         if(this.curLevel == null)
          {
             trace("Nothing to replay");
             return;
          }
-         var lvl:Level = new Level(this,this.var_26.levelName);
-         lvl.initFromCode(this.var_129);
-         this.method_94(lvl);
-         GUI.showInGamePanel(this.var_26.levelName,this.var_26.maxPower,this.var_80);
+         var lvl:Level = new Level(this,this.curLevel.levelName);
+         lvl.initFromCode(this.lvCode);
+         this.beginGame(lvl);
+         GUI.showInGamePanel(this.curLevel.levelName,this.curLevel.maxPower,this.time);
       }
       
-      private function method_135(event:MouseEvent) : void
+      private function onMouseDown(event:MouseEvent) : void
       {
          var cell:Cell = null;
          §§push(true);
@@ -412,14 +412,14 @@ package
             cell = event.target as Cell;
             if(cell.type == this.var_202 && cell.numOrigLinks < cell.maxOrigLinks)
             {
-               this.method_196(cell);
+               this.setSelCell(cell);
                §§push(true);
             }
          }
          else
          {
-            this.var_162 = event.stageX;
-            this.var_265 = event.stageY;
+            this.stageX = event.stageX;
+            this.stageY = event.stageY;
          }
       }
       
@@ -433,21 +433,21 @@ package
       {
          GamezheroApi.trackEvent("play",id + 1 + "_start_level");
          this.var_106 = this.const_4;
-         this.method_94(this.levelMgr.createLevel(id));
-         GUI.showInGamePanel(this.var_26.levelName,this.var_26.maxPower,this.var_80);
+         this.beginGame(this.levelMgr.createLevel(id));
+         GUI.showInGamePanel(this.curLevel.levelName,this.curLevel.maxPower,this.time);
          if(id == 0)
          {
-            this.method_190(0);
+            this.onTutorial(0);
             §§push(true);
          }
       }
-      
-      private function method_117() : void
+      //右上颜色区域
+      private function powerGraphics() : void
       {
-         var green:int = this.var_26.getTotalPowerOf(Cell.TYPE_GREEN);
-         var red:int = this.var_26.getTotalPowerOf(Cell.TYPE_RED);
-         var black:int = this.var_26.getTotalPowerOf(Cell.TYPE_BLACK);
-         var purple:int = this.var_26.getTotalPowerOf(Cell.TYPE_PURPLE);
+         var green:int = this.curLevel.getTotalPowerOf(Cell.TYPE_GREEN);
+         var red:int = this.curLevel.getTotalPowerOf(Cell.TYPE_RED);
+         var black:int = this.curLevel.getTotalPowerOf(Cell.TYPE_BLACK);
+         var purple:int = this.curLevel.getTotalPowerOf(Cell.TYPE_PURPLE);
          var max:int = green + red + black + purple;
          var xpos:* = Number(0);
          var g:Graphics = this.var_171.graphics;
@@ -481,7 +481,7 @@ package
          g.endFill();
       }
       
-      private function method_177(event:GameAllianzApiEvent = null) : void
+      private function createLevelsMenu(event:GameAllianzApiEvent = null) : void
       {
          GUI.createLevelsMenu();
       }
@@ -491,28 +491,28 @@ package
          var lvl:Level = new Level(this,name);
          lvl.initFromCode(levelData);
          this.var_106 = this.const_7;
-         this.var_367 = levelId;
-         this.method_94(lvl);
-         GUI.showInGamePanel(this.var_26.levelName,this.var_26.maxPower,this.var_80);
+         this.levelId = levelId;
+         this.beginGame(lvl);
+         GUI.showInGamePanel(this.curLevel.levelName,this.curLevel.maxPower,this.time);
       }
       
       public function clearLevel() : void
       {
          this.method_251();
-         this.var_207 = 0;
-         this.var_182 = false;
-         this.var_26 = null;
+         this.cpuTurnPeriod = 0;
+         this.isPause = false;
+         this.curLevel = null;
          §§push(true);
          §§push(true);
-         if(this.var_68)
+         if(this.levelEdit)
          {
-            this.var_68.destruct();
-            this.var_68 = null;
+            this.levelEdit.destruct();
+            this.levelEdit = null;
          }
-         this.var_340.reset();
+         this.stat.reset();
       }
       
-      private function method_276(e:MouseEvent) : void
+      private function arrowGraphics(e:MouseEvent) : void
       {
          var dst:Cell = null;
          var angDelta:Number = NaN;
@@ -522,16 +522,16 @@ package
          var toX:Number = e.stageX;
          var toY:Number = e.stageY;
          var color:uint = 16733525;
-         if(this.var_89)
+         if(this.selCell)
          {
-            fromX = this.var_89.x;
-            fromY = this.var_89.y;
+            fromX = this.selCell.x;
+            fromY = this.selCell.y;
             color = 16777045;
          }
          else
          {
-            fromX = this.var_162;
-            fromY = this.var_265;
+            fromX = this.stageX;
+            fromY = this.stageY;
          }
          if(e.target is Cell)
          {
@@ -549,7 +549,7 @@ package
          g.moveTo(fromX,fromY);
          g.lineTo(toX,toY);
          §§push(true);
-         if(this.var_89)
+         if(this.selCell)
          {
             g.lineTo(Math.cos(ang - angDelta) * (dist - 5) + fromX,Math.sin(ang - angDelta) * (dist - 5) + fromY);
             g.moveTo(toX,toY);
@@ -559,7 +559,7 @@ package
          }
       }
       
-      private function method_190(id:int) : void
+      private function onTutorial(id:int) : void
       {
          this.clearTutorial();
          §§push(false);
@@ -580,8 +580,8 @@ package
       
       public function pause(enabled:Boolean) : void
       {
-         this.var_182 = enabled;
-         if(this.var_26)
+         this.isPause = enabled;
+         if(this.curLevel)
          {
             §§push(false);
          }

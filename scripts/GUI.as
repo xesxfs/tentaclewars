@@ -213,7 +213,7 @@ package
       {
       }
       
-      private static function method_134(isLevelPassed:Boolean, time:int) : Sprite
+      private static function resultTop(isLevelPassed:Boolean, time:int) : Sprite
       {
          var dialogX:int = 280;
          var dialog:Sprite = new Sprite();
@@ -230,19 +230,19 @@ package
          hdr.y = -80;
          dialog.addChild(hdr);
          var but:Sprite = null;
-         but = method_43(TXT_MENU,0,90,onGameMenu);
+         but = newButton(TXT_MENU,0,90,onGameMenu);
          dialog.addChild(but);
          var btn:DisplayObject = new BtnGamezhero();
          btn.scaleX = 0.8;
          btn.scaleY = 0.8;
          btn.x = -(btn.width / 2) - 10;
          btn.y = -(btn.height / 2) + 25;
-         btn.addEventListener(MouseEvent.CLICK,method_73);
+         btn.addEventListener(MouseEvent.CLICK,gameHeroClick);
          dialog.addChild(btn);
          return dialog;
       }
       
-      private static function method_195() : void
+      private static function beginToGame() : void
       {
          if(m_currLevel >= 0)
          {
@@ -256,7 +256,7 @@ package
          fade(false);
       }
       
-      private static function method_234(evt:MouseEvent) : void
+      private static function onSelectLevelClick(evt:MouseEvent) : void
       {
          var but:Sprite = null;
          §§push(true);
@@ -267,7 +267,7 @@ package
             if(m_currLevel >= 0)
             {
                SoundMgr.playSfx(SoundMgr.BEGIN_GAME);
-               fade(true,method_195);
+               fade(true,beginToGame);
             }
          }
       }
@@ -286,7 +286,7 @@ package
       {
          removeByName("ingame-panel");
          var dialog:Sprite = new Sprite();
-         var /*UnknownSlot*/:* = method_43(TXT_WALKTHROUGH,MAX_X - 70,MAX_Y - 15,method_73);
+         var but = newButton(TXT_WALKTHROUGH,MAX_X - 70,MAX_Y - 15,gameHeroClick);
          but.name = GameAllianzApiLinks.TO_GAME_WALKTHROUGH;
          but.x = MAX_X - but.width / 2 - 10;
          dialog.addChild(but);
@@ -294,7 +294,7 @@ package
          m_items.push(dialog);
       }
       
-      private static function method_128() : void
+      private static function onMenuOrClear() : void
       {
          onGameMenu();
       }
@@ -322,7 +322,7 @@ package
          m_fadeCompleteFunc = completeFunc;
       }
       
-      private static function method_209(event:MouseEvent) : void
+      private static function onGotoNameUrl(event:MouseEvent) : void
       {
          var but:DisplayObject = event.target as DisplayObject;
          if(but != null && but.name.length > 0)
@@ -341,7 +341,7 @@ package
          }
       }
       
-      private static function method_142(evt:MouseEvent) : void
+      private static function onFaseReplayLevel(evt:MouseEvent) : void
       {
          fade(true,replayLevel);
       }
@@ -373,7 +373,7 @@ package
       {
          removeAll();
          fade(false);
-         var dialog:Sprite = method_93();
+         var dialog:Sprite = mainBackBtns();
          m_sharedLvl.showLevelsChooser();
          m_parent.addChild(dialog);
          m_items.push(dialog);
@@ -389,7 +389,7 @@ package
          logo.scaleX = 0.7;
          logo.scaleY = 0.7;
          var but:Sprite = null;
-         but = method_43(TXT_SUBMIT_SCORE,MAX_X / 2,MAX_Y - 80,function(evt:MouseEvent):void
+         but = newButton(TXT_SUBMIT_SCORE,MAX_X / 2,MAX_Y - 80,function(evt:MouseEvent):void
          {
             if(m_soundOn)
             {
@@ -408,7 +408,7 @@ package
          removeByName("hint");
       }
       
-      private static function method_99(evt:MouseEvent) : void
+      private static function logoSprMouseOver(evt:MouseEvent) : void
       {
          var but:Sprite = evt.target as Sprite;
          switch(evt.type)
@@ -448,7 +448,7 @@ package
          m_items.push(text);
       }
       
-      private static function method_162(event:MouseEvent) : void
+      private static function onSoundClick(event:MouseEvent) : void
       {
          m_soundOn = !m_soundOn;
          SoundMgr.musicEnable(m_soundOn);
@@ -543,7 +543,7 @@ package
             if(item.name == name)
             {
                item.parent.removeChild(item);
-               method_79(item);
+               destoryItem(item);
                item = null;
                m_items.splice(i,1);
                if(i > 0)
@@ -555,7 +555,7 @@ package
          }
       }
       
-      private static function method_97(dialog:Sprite, isEditor:Boolean) : void
+      private static function gameBottomBtns(dialog:Sprite, isEditor:Boolean) : void
       {
          var g:Graphics = dialog.graphics;
          g.beginFill(0,0.5);
@@ -569,14 +569,14 @@ package
             but.scaleY = 0.7;
             but.x = 110;
             but.y = BOTTOM_Y - 15;
-            but.addEventListener(MouseEvent.CLICK,method_142);
+            but.addEventListener(MouseEvent.CLICK,onFaseReplayLevel);
             dialog.addChild(but);
             but = new BtnPause();
             but.scaleX = 0.7;
             but.scaleY = 0.7;
             but.x = 80;
             but.y = BOTTOM_Y - 15;
-            but.addEventListener(MouseEvent.CLICK,method_291);
+            but.addEventListener(MouseEvent.CLICK,onPauseClick);
             dialog.addChild(but);
             §§push(true);
          }
@@ -586,7 +586,7 @@ package
          clp.x = 50;
          clp.y = BOTTOM_Y - 15;
          clp.gotoAndStop(!!m_soundOn?2:1);
-         clp.addEventListener(MouseEvent.CLICK,method_162);
+         clp.addEventListener(MouseEvent.CLICK,onSoundClick);
          clp.buttonMode = true;
          dialog.addChild(clp);
          but = new BtnExit();
@@ -596,7 +596,7 @@ package
          but.y = BOTTOM_Y - 15;
          but.addEventListener(MouseEvent.CLICK,onGameMenu);
          dialog.addChild(but);
-         var btn:Sprite = method_43(TXT_MORE_GAMES,MAX_X / 2,BOTTOM_Y - 15,method_73);
+         var btn:Sprite = newButton(TXT_MORE_GAMES,MAX_X / 2,BOTTOM_Y - 15,gameHeroClick);
       }
       
       public static function createSaveDialog(levelData:String) : void
@@ -638,9 +638,9 @@ package
          /*UnknownSlot*/.x = 0;
          dialog.y = 0;
          dialog.name = "ingame-panel";
-         method_97(dialog,true);
+         gameBottomBtns(dialog,true);
          var but:DisplayObject = null;
-         but = method_43(TXT_TEST,0,MAX_Y - 15,function(e:MouseEvent):void
+         but = newButton(TXT_TEST,0,MAX_Y - 15,function(e:MouseEvent):void
          {
             m_game.testEditorLevel();
          });
@@ -650,7 +650,7 @@ package
          m_items.push(dialog);
       }
       
-      private static function method_43(str:String, x:Number, y:Number, onClick:Function, fontSize:int = 14, fontName:String = "translate") : Sprite
+      private static function newButton(str:String, x:Number, y:Number, onClick:Function, fontSize:int = 14, fontName:String = "translate") : Sprite
       {
          var but:Sprite = createText(str,fontSize,16777215,1,false,16777215,fontName);
          but.x = x;
@@ -658,11 +658,11 @@ package
          return but;
       }
       
-      private static function method_219(evt:MouseEvent) : void
+      private static function continueNextGame(evt:MouseEvent) : void
       {
          m_currLevel++;
          SoundMgr.playSfx(SoundMgr.BEGIN_GAME);
-         fade(true,method_195);
+         fade(true,beginToGame);
       }
       
       private static function onGameMenu(evt:MouseEvent = null) : void
@@ -679,7 +679,7 @@ package
          }
       }
       
-      private static function method_170(e:MouseEvent = null) : void
+      private static function onRemovePause(e:MouseEvent = null) : void
       {
          for(var spr:DisplayObject = null; m_fade.numChildren > 0; )
          {
@@ -688,7 +688,7 @@ package
          }
          m_fade.alpha = 0;
          m_fade.mouseEnabled = false;
-         m_fade.removeEventListener(MouseEvent.CLICK,method_170);
+         m_fade.removeEventListener(MouseEvent.CLICK,onRemovePause);
          m_game.pause(false);
          SoundMgr.musicEnable(m_soundOn);
       }
@@ -703,7 +703,7 @@ package
          var tendril:Tendril = null;
          removeAll();
          fade(false);
-         var dialog:Sprite = method_93();
+         var dialog:Sprite = mainBackBtns();
          var top:Sprite = new Sprite();
          dialog.addChild(top);
          var g:Graphics = top.graphics;
@@ -725,10 +725,10 @@ package
             r2 = !!open?Number(r + 50):Number(r + 25);
             g.moveTo(Math.cos(ang) * r + x,Math.sin(ang) * r + y);
             g.lineTo(Math.cos(ang) * r2 + x,Math.sin(ang) * r2 + y);
-            var but:Sprite = method_43(String(i + 1),Math.cos(ang) * (r2 + 15) + x,Math.sin(ang) * (r2 + 15) + y,method_234,18,"default");
+            var but:Sprite = newButton(String(i + 1),Math.cos(ang) * (r2 + 15) + x,Math.sin(ang) * (r2 + 15) + y,onSelectLevelClick,18,"default");
             but.name = !!open?String(i):String(-1);
             g2 = but.graphics;
-            var /*UnknownSlot*/:* = uint(uint(3385907));
+            color = uint(uint(3385907));
             §§push(createLevelsMenu$0);
             if(i + 1 == m_openLevel)
             {
@@ -740,17 +740,17 @@ package
             §§push(createLevelsMenu$0);
             §§push(true);
          }
-         var /*UnknownSlot*/:* = method_43(TXT_EDIT,MAX_X / 2,MAX_Y / 2 - 30,function(e:MouseEvent):void
+         but = newButton(TXT_EDIT,MAX_X / 2,MAX_Y / 2 - 30,function(e:MouseEvent):void
          {
             m_game.initLevelEditor();
          });
          dialog.addChild(but);
-         but = method_43(TXT_SHARED_LEVELS,MAX_X / 2,MAX_Y / 2,function(e:MouseEvent):void
+         but = newButton(TXT_SHARED_LEVELS,MAX_X / 2,MAX_Y / 2,function(e:MouseEvent):void
          {
             gotoUrl("http://www.gamezhero.com/games/tentaclewarsthepurplemenace/levels");
          });
          dialog.addChild(but);
-         but = method_43(TXT_ORIGINAL_GAME,MAX_X / 2,MAX_Y / 2 + 30,function(e:MouseEvent):void
+         but = newButton(TXT_ORIGINAL_GAME,MAX_X / 2,MAX_Y / 2 + 30,function(e:MouseEvent):void
          {
             GameAllianzApi.getUrl("http://www.gamezhero.com/games/tentaclewars","_blank","tentaclewars");
          });
@@ -759,7 +759,7 @@ package
          m_items.push(dialog);
       }
       
-      private static function method_93() : Sprite
+      private static function mainBackBtns() : Sprite
       {
          var clp:MovieClip = null;
          var dialog:Sprite = new Sprite();
@@ -779,7 +779,7 @@ package
          logoSpr.scaleY = 0.7;
          logoSpr.name = "http://lumarama.com/blog";
          logoSpr.buttonMode = true;
-         logoSpr.addEventListener(MouseEvent.ROLL_OVER,method_99);
+         logoSpr.addEventListener(MouseEvent.ROLL_OVER,logoSprMouseOver);
          dialog.addChild(logoSpr);
          var hdr:Sprite = createText("Tentacle Wars",50,16777215,1,true,0,"header");
          hdr.x = MAX_X / 2;
@@ -799,15 +799,16 @@ package
          clp.x = MAX_X - 30;
          clp.y = 30;
          clp.gotoAndStop(!!m_soundOn?2:1);
-         clp.addEventListener(MouseEvent.CLICK,method_162);
+         clp.addEventListener(MouseEvent.CLICK,onSoundClick);
          clp.buttonMode = true;
          dialog.addChild(clp);
          return dialog;
       }
-      
+      //结算
       public static function createInterLevelMenu(isLevelPassed:Boolean, time:int, achieve:Achievements) : void
       {
          m_currScore = achieve.getScore();
+         //是否通关
          if(isLevelPassed)
          {
             KongAPI.submitHighScore(m_currScore);
@@ -839,7 +840,7 @@ package
          {
             SoundMgr.playSfx(!!isLevelPassed?int(SoundMgr.LEVEL_PASSED):int(SoundMgr.LEVEL_FAILED));
          }
-         var dialog:Sprite = method_134(isLevelPassed,time);
+         var dialog:Sprite = resultTop(isLevelPassed,time);
          dialog.name = "inter-level";
          var but:Sprite = null;
          var timeSpr:Sprite = createText(true.toUpperCase(),14,15658666,1,false,16777215,"translate",true);
@@ -849,38 +850,38 @@ package
          §§push(TXT_TIME);
          if(isLevelPassed)
          {
-            but = method_43(TXT_SUBMIT_SCORE,0,-25,onSubmitScoreClick);
+            but = newButton(TXT_SUBMIT_SCORE,0,-25,onSubmitScoreClick);
             §§push(true);
          }
          if(isLevelPassed)
          {
-            but = method_43(TXT_MORE_GAMES,0,120,method_73);
+            but = newButton(TXT_MORE_GAMES,0,120,gameHeroClick);
             but.name = GameAllianzApiLinks.TO_PORTAL_BY_MORE_GAMES;
          }
          else
          {
-            but = method_43(TXT_WALKTHROUGH,0,120,method_73);
+            but = newButton(TXT_WALKTHROUGH,0,120,gameHeroClick);
             but.name = GameAllianzApiLinks.TO_GAME_WALKTHROUGH;
          }
          dialog.addChild(but);
          if(isLevelPassed)
          {
-            but = method_43(TXT_CONTINUE,0,150,method_219);
+            but = newButton(TXT_CONTINUE,0,150,continueNextGame);
          }
          else
          {
-            but = method_43(TXT_REPLAY,0,150,method_142);
+            but = newButton(TXT_REPLAY,0,150,onFaseReplayLevel);
          }
          dialog.addChild(but);
          m_parent.addChild(dialog);
          m_items.push(dialog);
       }
       
-      private static function method_291(e:MouseEvent = null) : void
+      private static function onPauseClick(e:MouseEvent = null) : void
       {
          m_fade.alpha = 0.7;
          m_fade.mouseEnabled = true;
-         m_fade.addEventListener(MouseEvent.CLICK,method_170);
+         m_fade.addEventListener(MouseEvent.CLICK,onRemovePause);
          m_game.pause(true);
          SoundMgr.musicEnable(false);
          var pause:Sprite = createText("PAUSED",50,16777215,1,true,0,"header");
@@ -889,7 +890,7 @@ package
          pause.mouseEnabled = false;
       }
       
-      private static function method_79(item:Sprite) : void
+      private static function destoryItem(item:Sprite) : void
       {
          var tendril:Tendril = null;
          var text:TypingText = null;
@@ -934,7 +935,7 @@ package
          fade(false);
       }
       
-      private static function method_73(event:MouseEvent) : void
+      private static function gameHeroClick(event:MouseEvent) : void
       {
          var but:DisplayObject = event.target as DisplayObject;
          if(but != null && but.name.length > 0)

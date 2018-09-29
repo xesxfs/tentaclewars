@@ -29,11 +29,11 @@ package
       
       private var var_325:Boolean = false;
       
-      private var var_78:int = 0;
+      private var maxPower:int = 0;
       
-      private var var_128:uint = 0;
+      private var cpuPeriod:uint = 0;
       
-      private var var_210:uint = 0;
+      private var intervalKey:uint = 0;
       
       private var var_386:Boolean = false;
       
@@ -41,21 +41,21 @@ package
       
       private var var_202:int;
       
-      private var var_243:Sprite = null;
+      private var cellList3:Sprite = null;
       
       private var var_137:Sprite = null;
       
-      private var var_72:Array = null;
+      private var linkList:Array = null;
       
       private var var_383:int;
       
       private var var_66:Array = null;
       
-      private var var_248:uint = 0;
+      private var cellList:uint = 0;
       
-      private var var_349:String = null;
+      private var lvId:String = null;
       
-      private var var_24:Array = null;
+      private var cellList:Array = null;
       
       public function Level(game:Main, name:String = "", maxPower:int = 200)
       {
@@ -63,41 +63,41 @@ package
          this.var_383 = Cell.TYPE_BLACK;
          super();
          this.m_game = game;
-         this.var_349 = name;
-         this.var_78 = maxPower;
-         this.var_24 = new Array();
-         this.var_72 = new Array();
+         this.lvId = name;
+         this.maxPower = maxPower;
+         this.cellList = new Array();
+         this.linkList = new Array();
          this.var_66 = new Array();
-         this.var_243 = new Sprite();
+         this.cellList3 = new Sprite();
          this.var_137 = new Sprite();
-         addChild(this.var_243);
+         addChild(this.cellList3);
          addChild(this.var_137);
-         this.var_128 = 100;
-         this.method_113(true);
+         this.cpuPeriod = 100;
+         this.start(true);
       }
       
       public function get maxPower() : int
       {
-         return this.var_78;
+         return this.maxPower;
       }
       
       public function set maxPower(power:int) : void
       {
          var cell:Cell = null；
-         for(var i:int = 0; i < this.var_24.length; )
+         for(var i:int = 0; i < this.cellList.length; )
          {
-            cell = this.var_24[i];
+            cell = this.cellList[i];
          }
       }
       
-      private function method_229() : void
+      private function updateLinks() : void
       {
          var link:Link = null;
          var orig:Cell = null;
          var dest:Cell = null;
-         for(var i:int = 0; i < this.var_72.length; )
+         for(var i:int = 0; i < this.linkList.length; )
          {
-            link = this.var_72[i];
+            link = this.linkList[i];
             orig = link.getOrigCell();
             dest = link.getDestCell();
             if(orig.type != this.var_202)
@@ -122,7 +122,7 @@ package
       private function method_66(orig:Cell, dest:Cell) : Link
       {
          §§push(true);
-         if(0 < this.var_72.length)
+         if(0 < this.linkList.length)
          {
             §§push(true);
          }
@@ -141,15 +141,15 @@ package
          var orig:Cell = null;
          var dest:Cell = null;
          var minLen:Number = 10000;
-         for(i = 0; i < this.var_24.length; )
+         for(i = 0; i < this.cellList.length; )
          {
-            tmpOrig = this.var_24[i];
+            tmpOrig = this.cellList[i];
             §§push(tmpOrig.type);
             if(cellType < true)
             {
-               for(j = 0; j < this.var_24.length; )
+               for(j = 0; j < this.cellList.length; )
                {
-                  tmpDest = this.var_24[j];
+                  tmpDest = this.cellList[j];
                   §§push(tmpDest.type == tmpOrig.type && this.method_66(tmpDest,tmpOrig) == null && this.method_66(tmpOrig,tmpDest) == null);
                   if(tmpDest.type == tmpOrig.type && this.method_66(tmpDest,tmpOrig) == null && this.method_66(tmpOrig,tmpDest) == null)
                   {
@@ -183,10 +183,10 @@ package
       
       public function delCell(cell:Cell) : void
       {
-         var i:int = this.var_24.indexOf(cell);
+         var i:int = this.cellList.indexOf(cell);
          if(i >= 0)
          {
-            this.var_24.splice(i,1);
+            this.cellList.splice(i,1);
             this.var_137.removeChild(cell);
          }
       }
@@ -240,7 +240,7 @@ package
       
       public function destruct() : void
       {
-         this.method_113(false);
+         this.start(false);
          if(parent)
          {
             parent.removeChild(this);
@@ -255,7 +255,7 @@ package
       
       public function addCell(x:Number, y:Number, type:int, power:int, maxPower:int = 999) : Cell
       {
-         if(this.var_24.length >= MAX_CELLS)
+         if(this.cellList.length >= MAX_CELLS)
          {
             return null;
          }
@@ -267,7 +267,7 @@ package
             cell.suspend();
          }
          this.var_137.addChild(cell);
-         this.var_24.push(cell);
+         this.cellList.push(cell);
          if(type == Cell.TYPE_BLACK)
          {
             this.var_386 = true;
@@ -277,26 +277,26 @@ package
       
       public function delLink(link:Link) : void
       {
-         var i:int = this.var_72.indexOf(link);
+         var i:int = this.linkList.indexOf(link);
          §§push(true);
          if(i >= 0)
          {
-            this.var_72.splice(i,1);
-            this.var_243.removeChild(link);
+            this.linkList.splice(i,1);
+            this.cellList3.removeChild(link);
          }
       }
       
       public function get levelName() : String
       {
-         return this.var_349;
+         return this.lvId;
       }
       
       public function suspend() : void
       {
          var cell:Cell = null;
-         for(this.var_325 = true,var i:int = 0; i < this.var_24.length; )
+         for(this.var_325 = true,var i:int = 0; i < this.cellList.length; )
          {
-            cell = this.var_24[i];
+            cell = this.cellList[i];
             i++;
             §§push(true);
          }
@@ -319,14 +319,14 @@ package
          var orig:Cell = null;
          var dest:Cell = null;
          var minLen:* = Number(10000);
-         while(i < this.var_24.length)
+         while(i < this.cellList.length)
          {
-            tmpOrig = this.var_24[i];
+            tmpOrig = this.cellList[i];
             if(tmpOrig.type == cellType && tmpOrig.numOrigLinks < tmpOrig.maxOrigLinks)
             {
-               for(j = 0; j < this.var_24.length; )
+               for(j = 0; j < this.cellList.length; )
                {
-                  tmpDest = this.var_24[j];
+                  tmpDest = this.cellList[j];
                   §§push(tmpDest.type);
                   if(true - 10 > Link.getRequiredPower(len))
                   {
@@ -364,8 +364,8 @@ package
          }
          var inverseLink:Link = this.method_66(dest,orig);
          var link:Link = new Link(this,orig,dest);
-         this.var_72.push(link);
-         this.var_243.addChild(link);
+         this.linkList.push(link);
+         this.cellList3.addChild(link);
          if(inverseLink)
          {
             if(orig.type == dest.type)
@@ -382,9 +382,9 @@ package
       
       private function clear() : void
       {
-         for(var cell:Cell = null,var fence:Fence = null; this.var_24.length > 0; )
+         for(var cell:Cell = null,var fence:Fence = null; this.cellList.length > 0; )
          {
-            cell = this.var_24[0];
+            cell = this.cellList[0];
             cell.destruct();
             cell = null;
          }
@@ -403,7 +403,7 @@ package
          var p21y:Number = NaN;
          var p22x:Number = NaN;
          var p22y:Number = NaN;
-         if(0 < this.var_72.length)
+         if(0 < this.linkList.length)
          {
             §§push(true);
          }
@@ -413,9 +413,9 @@ package
       {
          var cell:Cell = null;
          var total:int = 0;
-         for(var i:int = 0; i < this.var_24.length; )
+         for(var i:int = 0; i < this.cellList.length; )
          {
-            cell = this.var_24[i];
+            cell = this.cellList[i];
             if(cell.type == cellType)
             {
                total = total + cell.power;
@@ -459,12 +459,12 @@ package
       {
          var fence:Fence = null;
          var code:String = "";
-         var checkSum:* = int(this.var_24.length + this.var_66.length + this.var_78 + this.var_248 + this.var_128);
-         code = String(this.var_24.length + "," + this.var_66.length + "," + this.var_78 + "," + this.var_248 + "," + this.var_128 + ",");
+         var checkSum:* = int(this.cellList.length + this.var_66.length + this.maxPower + this.cellList + this.cpuPeriod);
+         code = String(this.cellList.length + "," + this.var_66.length + "," + this.maxPower + "," + this.cellList + "," + this.cpuPeriod + ",");
          var i:int = 0;
          i = 0;
          §§push(true);
-         if(i >= this.var_24.length)
+         if(i >= this.cellList.length)
          {
             i = 0;
             addr239:
@@ -479,7 +479,7 @@ package
          }
          else
          {
-            §§push(this.var_24);
+            §§push(this.cellList);
             §§push(i);
             §§push(true);
          }
@@ -493,7 +493,7 @@ package
          }
       }
       
-      private function method_254() : void
+      private function onTick() : void
       {
          var j:int = 0;
          var dx:Number = NaN;
@@ -503,9 +503,9 @@ package
          var value:Number = NaN;
          var orig:Cell = null;
          var dest:Cell = null;
-         for(var i:int = 0; i < this.var_24.length; i++)
+         for(var i:int = 0; i < this.cellList.length; i++)
          {
-            orig = this.var_24[i];
+            orig = this.cellList[i];
             if(orig.x - orig.radius() < 0)
             {
                orig.addMoveDelta(0,5);
@@ -525,9 +525,9 @@ package
                orig.addMoveDelta(-90,5);
             }
             j = 0;
-            for(j = i + 1; j < this.var_24.length; )
+            for(j = i + 1; j < this.cellList.length; )
             {
-               dest = this.var_24[j];
+               dest = this.cellList[j];
                dx = dest.x - orig.x;
                dy = dest.y - orig.y;
                len = Math.sqrt(dx * dx + dy * dy);
@@ -552,7 +552,7 @@ package
       
       public function get cpuTurnPeriod() : uint
       {
-         return this.var_128;
+         return this.cpuPeriod;
       }
       
       public function initFromCode(code:String) : Boolean
@@ -567,10 +567,10 @@ package
          var sub:Array = code.split(",");
          var numCells:int = int(sub.shift() as String);
          var numFences:int = int(sub.shift() as String);
-         this.var_78 = int(sub.shift() as String);
-         this.var_248 = int(sub.shift() as String);
-         this.var_128 = int(sub.shift() as String);
-         var expectedSum:int = numCells + numFences + this.var_78 + this.var_248 + this.var_128;
+         this.maxPower = int(sub.shift() as String);
+         this.cellList = int(sub.shift() as String);
+         this.cpuPeriod = int(sub.shift() as String);
+         var expectedSum:int = numCells + numFences + this.maxPower + this.cellList + this.cpuPeriod;
          if(!(sub.length > 0 && numCells > 0))
          {
             addr321:
@@ -611,19 +611,19 @@ package
          }
       }
       
-      private function method_113(enabled:Boolean) : void
+      private function start(enabled:Boolean) : void
       {
          if(enabled)
          {
-            if(this.var_210 == 0)
+            if(this.intervalKey == 0)
             {
-               this.var_210 = setInterval(this.method_254,1000);
+               this.intervalKey = setInterval(this.onTick,1000);
             }
          }
-         else if(this.var_210 != 0)
+         else if(this.intervalKey != 0)
          {
-            clearInterval(this.var_210);
-            this.var_210 = 0;
+            clearInterval(this.intervalKey);
+            this.intervalKey = 0;
          }
       }
       
@@ -638,9 +638,9 @@ package
       {
          var cell:Cell = null;
          var inProgressYet:Boolean = false;
-         for(var i:int = 0; i < this.var_24.length; )
+         for(var i:int = 0; i < this.cellList.length; )
          {
-            cell = this.var_24[i];
+            cell = this.cellList[i];
             if(cell.type == this.var_202)
             {
                §§push(true);
@@ -668,15 +668,15 @@ package
             return;
          }
          this.var_182 = enabled;
-         for(i = 0; i < this.var_24.length; )
+         for(i = 0; i < this.cellList.length; )
          {
-            cell = this.var_24[i];
+            cell = this.cellList[i];
             cell.pause(enabled);
             i++;
          }
-         for(i = 0; i < this.var_72.length; §§push(true))
+         for(i = 0; i < this.linkList.length; §§push(true))
          {
-            link = this.var_72[i];
+            link = this.linkList[i];
             link.pause(enabled);
          }
          return;
