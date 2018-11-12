@@ -26,7 +26,8 @@ module Game {
 			this.children = new Array();
 			this.mouseEnabled = false;
 		}
-
+	
+		
 		protected method_153(radius: number): void {
 			for (var child: NodeChild = null, i = 0; i < this.children.length;) {
 				child = this.children[i];
