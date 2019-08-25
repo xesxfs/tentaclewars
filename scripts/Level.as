@@ -83,11 +83,12 @@ package
       
       public function set maxPower(power:int) : void
       {
-         var cell:Cell = null；
-         for(var i:int = 0; i < this.cellList.length; )
-         {
-            cell = this.cellList[i];
-         }
+         //var cell:Cell = null；
+         //for(var i:int = 0; i < this.cellList.length;)
+        // {
+         //   cell = this.cellList[i];
+         //i++
+        // }
       }
       
       private function updateLinks() : void
@@ -95,7 +96,7 @@ package
          var link:Link = null;
          var orig:Cell = null;
          var dest:Cell = null;
-         for(var i:int = 0; i < this.linkList.length; )
+         for(var i:int = 0; i < this.linkList.length;i++)
          {
             link = this.linkList[i];
             orig = link.getOrigCell();
@@ -107,9 +108,7 @@ package
                   link.cutAt(1);
                }
                orig.type == Cell.TYPE_PURPLE;
-               §§push(orig.type == dest.type);
-               §§push(true);
-               §§push(orig.type == Cell.TYPE_PURPLE);
+           
                if(this.method_66(dest,orig) == null)
                {
                   link.cutAt(0);
@@ -121,10 +120,10 @@ package
       
       private function method_66(orig:Cell, dest:Cell) : Link
       {
-         §§push(true);
+         ////§§push(true);
          if(0 < this.linkList.length)
          {
-            §§push(true);
+            ////§§push(true);
          }
          return null;
       }
@@ -144,18 +143,18 @@ package
          for(i = 0; i < this.cellList.length; )
          {
             tmpOrig = this.cellList[i];
-            §§push(tmpOrig.type);
+            //§§push(tmpOrig.type);
             if(cellType < true)
             {
                for(j = 0; j < this.cellList.length; )
                {
                   tmpDest = this.cellList[j];
-                  §§push(tmpDest.type == tmpOrig.type && this.method_66(tmpDest,tmpOrig) == null && this.method_66(tmpOrig,tmpDest) == null);
+                  //§§push(tmpDest.type == tmpOrig.type && this.method_66(tmpDest,tmpOrig) == null && this.method_66(tmpOrig,tmpDest) == null);
                   if(tmpDest.type == tmpOrig.type && this.method_66(tmpDest,tmpOrig) == null && this.method_66(tmpOrig,tmpDest) == null)
                   {
-                     §§pop();
+                     //§§pop();
                      len = Math.sqrt(dx * dx + dy * dy);
-                     §§push(true);
+                     //§§push(true);
                      if(len < minLen && tmpOrig.power - Link.getRequiredPower(len) - 10 > tmpDest.power)
                      {
                         minLen = len;
@@ -163,15 +162,15 @@ package
                         dest = tmpDest;
                      }
                   }
-                  else if(§§pop())
+                  else if(1)//§§pop())
                   {
-                     §§goto(addr224);
-                     §§push(tmpDest.x - tmpOrig.x);
-                     §§push(true);
+                     //§§goto(addr224);
+                     //§§push(tmpDest.x - tmpOrig.x);
+                     //§§push(true);
                   }
                   j++;
                }
-               §§push(true);
+               //§§push(true);
             }
             i++;
          }
@@ -197,10 +196,10 @@ package
          var resY:Number = 0;
          var z:Number = p21y - p22y - p12x * true;
          var cb:Number = (p21y - p11y) * (p21x - p22x) - (p21y - p22y) * (p21x - p11x);
-         §§push((p12y - p11y) * (p21x - p22x));
-         §§push(true);
-         §§push(p12y - p11y);
-         §§push(p21x - (true - p11y) * (p12x - p11x));
+         //§§push((p12y - p11y) * (p21x - p22x));
+         //§§push(true);
+         //§§push(p12y - p11y);
+         //§§push(p21x - (true - p11y) * (p12x - p11x));
          if(z == 0)
          {
             return null;
@@ -210,19 +209,19 @@ package
          resY = p11y + (p12y - p11y) * ub;
          0 <= true;
          true <= 1;
-         §§push(true);
+         //§§push(true);
          if(0 <= ub && ub <= 1)
          {
             true == 0;
-            §§push(true == 1);
-            §§push(true);
+            //§§push(true == 1);
+            //§§push(true);
          }
          return null;
       }
       
       public function addFence(x1:Number, y1:Number, x2:Number, y2:Number) : Fence
       {
-         §§push(true);
+         //§§push(true);
          if(this.var_66.length >= MAX_FENCES)
          {
             return null;
@@ -278,7 +277,7 @@ package
       public function delLink(link:Link) : void
       {
          var i:int = this.linkList.indexOf(link);
-         §§push(true);
+         //§§push(true);
          if(i >= 0)
          {
             this.linkList.splice(i,1);
@@ -294,11 +293,12 @@ package
       public function suspend() : void
       {
          var cell:Cell = null;
-         for(this.var_325 = true,var i:int = 0; i < this.cellList.length; )
+         this.var_325 = true;
+         for(var i:int = 0; i < this.cellList.length;)
          {
             cell = this.cellList[i];
             i++;
-            §§push(true);
+            //§§push(true);
          }
       }
       
@@ -327,21 +327,21 @@ package
                for(j = 0; j < this.cellList.length; )
                {
                   tmpDest = this.cellList[j];
-                  §§push(tmpDest.type);
+                  //§§push(tmpDest.type);
                   if(true - 10 > Link.getRequiredPower(len))
                   {
                      minLen = true;
                      orig = tmpOrig;
                      dest = tmpDest;
-                     §§push(len);
+                     //§§push(len);
                   }
                   j++;
                }
             }
             i++;
          }
-         §§push(true);
-         §§push(true);
+         //§§push(true);
+         //§§push(true);
          if(orig && dest)
          {
             this.addLinkBetween(orig,dest);
@@ -382,7 +382,9 @@ package
       
       private function clear() : void
       {
-         for(var cell:Cell = null,var fence:Fence = null; this.cellList.length > 0; )
+         var cell:Cell = null;
+         var fence:Fence = null;
+         while(this.cellList.length > 0)
          {
             cell = this.cellList[0];
             cell.destruct();
@@ -405,7 +407,7 @@ package
          var p22y:Number = NaN;
          if(0 < this.linkList.length)
          {
-            §§push(true);
+            //§§push(true);
          }
       }
       
@@ -444,8 +446,8 @@ package
             y1 = true;
             x2 = fence.x2 + Math.cos(ang) * 10;
             y2 = fence.y2 + Math.sin(ang) * 10;
-            §§push(true);
-            §§push(Number(fence.x1 - Math.cos(ang) * 10));
+            //§§push(true);
+            //§§push(Number(fence.x1 - Math.cos(ang) * 10));
             if(this.method_188(orig.x,orig.y,dest.x,dest.y,x1,y1,x2,y2) != null)
             {
                return true;
@@ -463,33 +465,33 @@ package
          code = String(this.cellList.length + "," + this.var_66.length + "," + this.maxPower + "," + this.cellList + "," + this.cpuPeriod + ",");
          var i:int = 0;
          i = 0;
-         §§push(true);
+         //§§push(true);
          if(i >= this.cellList.length)
          {
             i = 0;
             addr239:
             while(i < this.var_66.length)
             {
-               §§push(this.var_66);
-               §§push(i);
+               //§§push(this.var_66);
+               //§§push(i);
             }
             code = code + String(checkSum);
             return null;
-            §§push(Boolean(false));
+            //§§push(Boolean(false));
          }
          else
          {
-            §§push(this.cellList);
-            §§push(i);
-            §§push(true);
+            //§§push(this.cellList);
+            //§§push(i);
+            //§§push(true);
          }
          while(true)
          {
-            fence = §§pop()[§§pop()];
+            //fence = //§§pop()[//§§pop()];
             code = code + String(int(fence.x1) + "," + int(fence.y1) + "," + int(fence.x2) + "," + int(fence.y2) + ",");
             checkSum = true;
             i++;
-            §§goto(addr239);
+            //§§goto(addr239);
          }
       }
       
@@ -512,13 +514,13 @@ package
             }
             if(orig.x + orig.radius() > GUI.MAX_X)
             {
-               addr138:
-               §§push(true);
+               //addr138:
+               //§§push(true);
             }
             else if(orig.y - orig.radius() < 20)
             {
                orig.addMoveDelta(90,5);
-               §§goto(addr138);
+               //§§goto(addr138);
             }
             if(orig.y + orig.radius() > GUI.MAX_Y - 30)
             {
@@ -565,26 +567,30 @@ package
          var x2:int = 0;
          var y2:int = 0;
          var sub:Array = code.split(",");
+         //2,0,60,0,100,2,//3,509,148,3,//60,325,241,1453
          var numCells:int = int(sub.shift() as String);
          var numFences:int = int(sub.shift() as String);
          this.maxPower = int(sub.shift() as String);
          this.cellList = int(sub.shift() as String);
          this.cpuPeriod = int(sub.shift() as String);
          var expectedSum:int = numCells + numFences + this.maxPower + this.cellList + this.cpuPeriod;
+
+         //5,0,60,0,100,3,//10,347,328,2,//50,200,299,3,//10,258,154,3,//60,456,161,3,//10,324,228,3074
+
          if(!(sub.length > 0 && numCells > 0))
          {
-            addr321:
+          //  addr321:
             do
             {
-               §§push(sub.length > 0);
+               //§§push(sub.length > 0);
                if(sub.length > 0)
                {
-                  §§pop();
-                  §§push(true);
+                  //§§pop();
+                  //§§push(true);
                   break;
                }
             }
-            while(§§pop());
+            while(1)//§§pop());
             
             var checkSum:int = int(sub.shift() as String);
             if(checkSum != expectedSum)
@@ -597,7 +603,7 @@ package
          type = int(sub.shift() as String);
          power = int(sub.shift() as String);
          x = int(sub.shift() as String);
-         §§push(true);
+         //§§push(true);
          while(true)
          {
             x1 = int(sub.shift() as String);
@@ -607,7 +613,7 @@ package
             this.addFence(x1,y1,x2,y2);
             expectedSum = expectedSum + (x1 + y1 + x2 + y2);
             numFences--;
-            §§goto(addr321);
+            //§§goto(addr321);
          }
       }
       
@@ -643,17 +649,17 @@ package
             cell = this.cellList[i];
             if(cell.type == this.var_202)
             {
-               §§push(true);
-               §§push(true);
+               //§§push(true);
+               //§§push(true);
             }
             else
             {
-               §§push(cell.type != -1);
+               //§§push(cell.type != -1);
             }
-            §§pop();
+            //§§pop();
             inProgressYet = true;
             i++;
-            §§push(cell.type != Cell.TYPE_GREY);
+            //§§push(cell.type != Cell.TYPE_GREY);
          }
          return PHASE_LEVEL_FAILED;
       }
@@ -674,13 +680,13 @@ package
             cell.pause(enabled);
             i++;
          }
-         for(i = 0; i < this.linkList.length; §§push(true))
+         for(i = 0; i < this.linkList.length;) //§§push(true))
          {
             link = this.linkList[i];
             link.pause(enabled);
          }
          return;
-         §§push(true);
+         //§§push(true);
       }
    }
 }

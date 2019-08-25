@@ -79,13 +79,6 @@ var Main = (function (_super) {
         _this.ang = -Math.PI / 10;
         _this.angOffsize = Math.PI / 4;
         return _this;
-        // public createText(str: String, size: int, color: uint, alpha: Number = 1, outline: Boolean = false, outlineColor: uint = 16777215, fontName: String = "default", isCentered: Boolean = true): TextSprite {
-        //     return new TextSprite(str, size, color, alpha, outline, outlineColor, fontName, isCentered);
-        // }
-        /**
-         * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
-         * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
-         */
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
@@ -273,6 +266,7 @@ var Main = (function (_super) {
         }
     };
     Main.prototype.createTextSpite = function () {
+        return;
     };
     return Main;
 }(eui.UILayer));

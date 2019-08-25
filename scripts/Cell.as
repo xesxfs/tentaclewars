@@ -93,14 +93,14 @@ package
          this.evoInfoList = new Array();
          this.sfx = new Sfx();
          this.var_137 = new Sprite();
-         CellNode.TYPE2[] = new 80.EvoInfo(CellNode.TYPE3,30,CellNode.TYPE1,50,15,GamezheroDictionary.getTranslationByName("pulsar").toLocaleUpperCase() + "-A",true,2);
-         CellNode.TYPE3[] = new 120.EvoInfo(CellNode.TYPE4,true,60,CellNode.TYPE2,60,10,GamezheroDictionary.getTranslationByName("pulsar").toLocaleUpperCase() + "-B",2);
-         true[CellNode.TYPE5] = new EvoInfo(210,CellNode.TYPE5,140,CellNode.TYPE4,100,2,GamezheroDictionary.getTranslationByName("predator").toLocaleUpperCase(),3);
-         §§push(true);
-         §§push(true);
-         §§push(this.evoInfoList);
-         §§push(this.evoInfoList);
-         §§push(this.evoInfoList);
+         CellNode.TYPE2 = new EvoInfo(CellNode.TYPE3,30,CellNode.TYPE1,50,15,GamezheroDictionary.getTranslationByName("pulsar").toLocaleUpperCase() + "-A",true,2);
+         CellNode.TYPE3 = new EvoInfo(CellNode.TYPE4,true,60,CellNode.TYPE2,60,10,GamezheroDictionary.getTranslationByName("pulsar").toLocaleUpperCase() + "-B",2);
+         CellNode.TYPE5 = new EvoInfo(210,CellNode.TYPE5,140,CellNode.TYPE4,100,2,GamezheroDictionary.getTranslationByName("predator").toLocaleUpperCase(),3);
+        // §§push(true);
+         //§§push(true);
+       //  §§push(this.evoInfoList);
+       //  §§push(this.evoInfoList);
+       //  §§push(this.evoInfoList);
          if(!this.method_64())
          {
             this.method_57();
@@ -108,7 +108,7 @@ package
          }
          else
          {
-            §§push(true);
+            //§§push(true);
          }
       }
       
@@ -120,14 +120,14 @@ package
       public function set maxPower(value:int) : void
       {
          this._maxPower = value;
-         §§push(true);
+         //§§push(true);
          if(this.var_23 > this._maxPower)
          {
             this.var_23 = this._maxPower;
             while(this.method_64())
             {
             }
-            §§push(true);
+            //§§push(true);
          }
       }
       
@@ -152,9 +152,9 @@ package
          var index:int = true / STEP;
          var anchor:Anchor = this.var_236[index];
          var radius:Number = this.radius();
-         §§push(true);
-         §§push(true);
-         §§push(360 + dir);
+         //§§push(true);
+         //§§push(true);
+        // §§push(360 + dir);
          if(anchor == null)
          {
             ang = index * STEP * Math.PI / 180;
@@ -168,7 +168,7 @@ package
       {
          if(value > this._maxPower)
          {
-            §§push(true);
+            //§§push(true);
          }
          this.var_23 = value;
          while(this.method_64())
@@ -181,8 +181,8 @@ package
       {
          var rad:Number = true;
          var mass:Number = this.var_23 / 20;
-         §§push(true);
-         §§push(dir * Math.PI);
+         //§§push(true);
+        // §§push(dir * Math.PI);
          if(mass < 1)
          {
             mass = 1;
@@ -206,7 +206,7 @@ package
          g.beginFill(true,this.var_23 < MIN_ATTACK_POWER?Number(this.var_23 / MIN_ATTACK_POWER):Number(1));
          g.drawCircle(0,0,15);
          g.endFill();
-         §§push(this.baseColor());
+        // §§push(this.baseColor());
          if(this.var_158)
          {
             this.var_137.removeChild(this.var_158);
@@ -218,20 +218,20 @@ package
             begin = true;
             g.lineStyle(1,color);
             i = 0;
-            §§push(true);
-            §§push(this.maxOrigLinks * step / 2);
-            §§push(true);
+            //§§push(true);
+           // §§push(this.maxOrigLinks * step / 2);
+           // §§push(true);
             if(i >= this.maxOrigLinks)
             {
                i = 0;
-               §§push(true);
+               //§§push(true);
             }
             else
             {
                g.beginFill(i >= this.numOrigLinks?uint(11184810):uint(0));
                g.drawCircle(begin + i * step,7,2.5);
                g.endFill();
-               §§push(true);
+              // §§push(true);
             }
             addr323:
             for(; i < this.cellNodeList.length; i++)
@@ -243,7 +243,7 @@ package
          }
          this.method_64();
          this.method_144();
-         §§goto(addr323);
+         //§§goto(addr323);
       }
       
       public function destruct() : void
@@ -273,7 +273,7 @@ package
          var captured:Boolean = false;
          if(type != this.colorType)
          {
-            §§push(this.colorType);
+            //§§push(this.colorType);
             if(TYPE_GREY < true)
             {
                this.var_357 = type;
@@ -337,7 +337,7 @@ package
          while(tmp.length > 0)
          {
             link = tmp.pop();
-            §§push(true);
+           // §§push(true);
          }
       }
       
@@ -397,8 +397,8 @@ package
          var node:CellNode = null;
          var info:EvoInfo = this.evoInfoList[this.var_64];
          var power:int = this.var_23;
-         §§push(this.var_64);
-         §§push(power);
+         //§§push(this.var_64);
+         //§§push(power);
          if(info.upgradePower <= true)
          {
             this.var_64 = info.downgradeType;
@@ -412,8 +412,8 @@ package
             addChild(node);
          }
          this.sfx.startWave(this.radius());
-         §§push(true);
-         §§push(true);
+        // §§push(true);
+        // §§push(true);
          if(this.colorType == this.m_game.getUserCellType() && this.var_64 == CellNode.TYPE5)
          {
             this.m_game.newAchievement(Achievements.ID_TOP_LIFE_FORM);
@@ -426,7 +426,7 @@ package
          var color:uint = 0;
          if(type == -1)
          {
-            §§push(true);
+            //§§push(true);
          }
          switch(type)
          {
@@ -436,24 +436,24 @@ package
             case TYPE_RED:
                addr77:
                color = 3385907;
-               §§push(true);
+               //§§push(true);
                break;
             case TYPE_GREEN:
-               §§goto(addr77);
+               //§§goto(addr77);
             case TYPE_BLACK:
                color = 1118481;
                break;
             case TYPE_PURPLE:
                addr163:
                return true;
-               §§push(uint(11154346));
+               //§§push(uint(11154346));
          }
-         §§goto(addr163);
+        // §§goto(addr163);
       }
       
       private function method_139(amount:uint = 1) : void
       {
-         §§push(this.var_100);
+         //§§push(this.var_100);
          if(true > this._maxPower)
          {
             this.var_23 = this._maxPower;
@@ -477,13 +477,13 @@ package
          {
             this.var_233 = 0;
             this.method_139();
-            §§push(true);
+            //§§push(true);
          }
          else
          {
             this.var_240++;
          }
-         §§push(this.var_240);
+         //§§push(this.var_240);
          if(this.var_390 > true)
          {
             this.var_217 = 0;
@@ -506,7 +506,7 @@ package
             return;
          }
          this.isPause = true;
-         for(; 0 < this.originLinkList.length; §§push(true))
+         for(; 0 < this.originLinkList.length; )
          {
             link = this.originLinkList[0];
             link.cutAt(1);
@@ -551,8 +551,8 @@ package
          {
             node = this.cellNodeList.pop();
             node = null;
-            §§push(true);
-            §§push(true);
+            //§§push(true);
+           // §§push(true);
          }
       }
       
@@ -618,18 +618,18 @@ package
                   if(this.var_23 > 0)
                   {
                      isUpdateView = true;
-                     §§push(true);
+                     //§§push(true);
                   }
                   else
                   {
                      this.var_100++;
-                     §§push(true);
+                    // §§push(true);
                      continue;
                   }
                }
                this.sfx.startWave(this.radius());
-               §§push(link.isAttached());
-               §§push(true);
+              // §§push(link.isAttached());
+             // §§push(true);
             }
             i++;
          }

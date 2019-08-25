@@ -1,3 +1,11 @@
+/*
+ * @Author: chenwei
+ * @Date: 2018-09-28 12:18:32
+ * @LastEditors: chenwei
+ * @LastEditTime: 2018-09-28 12:19:23
+ * @Description:
+ * @Email: chenweicon@gmail.com
+ */
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };

@@ -701,16 +701,22 @@ package
          var g2:Graphics = null;
          var color:uint = 0;
          var tendril:Tendril = null;
+
          removeAll();
          fade(false);
          var dialog:Sprite = mainBackBtns();
          var top:Sprite = new Sprite();
-         dialog.addChild(top);
+         dialog.addChild(top);         
          var g:Graphics = top.graphics;
+
+
          var r:Number = 80;
          var levelsNum:int = 20;
+
          var step:Number = Math.PI * 2 / levelsNum;
+
          var x:Number = MAX_X / 2;
+
          var /*UnknownSlot*/:* = true;
          §§push(true);
          §§push(createLevelsMenu$0);
@@ -723,9 +729,13 @@ package
             ang = i * step - Math.PI / 2;
             open = i < m_openLevel;
             r2 = !!open?Number(r + 50):Number(r + 25);
+
             g.moveTo(Math.cos(ang) * r + x,Math.sin(ang) * r + y);
+
             g.lineTo(Math.cos(ang) * r2 + x,Math.sin(ang) * r2 + y);
+
             var but:Sprite = newButton(String(i + 1),Math.cos(ang) * (r2 + 15) + x,Math.sin(ang) * (r2 + 15) + y,onSelectLevelClick,18,"default");
+            
             but.name = !!open?String(i):String(-1);
             g2 = but.graphics;
             color = uint(uint(3385907));

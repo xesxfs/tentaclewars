@@ -1,28 +1,28 @@
 {
-  "engineVersion": "5.2.2",
-  "compilerVersion": "5.2.2",
-  "template": {},
-  "target": {
-    "current": "web"
-  },
-  "modules": [
-    {
-      "name": "egret"
-    },
-    {
-      "name": "eui"
-    },
-    {
-      "name": "assetsmanager"
-    },
-    {
-      "name": "tween"
-    },
-    {
-      "name": "game"
-    },
-    {
-      "name": "promise"
-    }
-  ]
+	"engineVersion": "5.2.26",
+	"compilerVersion": "5.2.26",
+	"template": {},
+	"target": {
+		"current": "web"
+	},
+	"modules": [
+		{
+			"name": "egret"
+		},
+		{
+			"name": "eui"
+		},
+		{
+			"name": "assetsmanager"
+		},
+		{
+			"name": "tween"
+		},
+		{
+			"name": "game"
+		},
+		{
+			"name": "promise"
+		}
+	]
 }

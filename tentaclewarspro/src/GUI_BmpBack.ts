@@ -1,10 +1,11 @@
- class GUI_BmpBack extends mx.core.BitmapAsset {
+class GUI_BmpBack extends mx.core.BitmapAsset {
 
-	public constructor()
-	{
+	public constructor() {
 		super();
+		for (let i = 0; i < 2; i++) {
+
+		}
 	}
 
 }
 
-flash.extendsClass("GUI_BmpBack","mx.core.BitmapAsset")

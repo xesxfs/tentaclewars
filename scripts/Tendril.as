@@ -17,7 +17,7 @@ package
       
       private var var_70:Number = 0;
       
-      private var var_250:Sync = null;
+      private var sync:Sync = null;
       
       private var var_293:uint = 16777215;
       
@@ -52,7 +52,7 @@ package
          var g:Graphics = graphics;
          var centerRadius:Number = var_125 + this.var_231 / 2;
          var endRadius:Number = var_125 + this.var_231;
-         var endAngle:Number = var_144 + this.var_366 * this.var_341 * (Math.sin(this.var_250.phase) - this.var_377);
+         var endAngle:Number = var_144 + this.var_366 * this.var_341 * (Math.sin(this.sync.phase) - this.var_377);
          var beginX:Number = Math.cos(var_144) * var_125;
          var midX:Number = Math.cos(var_144) * centerRadius;
          var midY:Number = Math.sin(var_144) * centerRadius;
